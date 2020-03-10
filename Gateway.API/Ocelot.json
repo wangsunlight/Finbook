@@ -1,0 +1,102 @@
+{
+  "ReRoutes": [
+    {
+      //用户模块
+      "DownstreamPathTemplate": "/api/users/{path}", //下游请求地址模板
+      "DownstreamScheme": "http", //请求协议，目前应该是支持http和https
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 5001
+        }
+      ],
+      "UpstreamHttpMethod": [ //请求方法数组
+        "Get",
+        "Post",
+        "Patch"
+      ],
+      "UpstreamPathTemplate": "/users/{path}", //请求路径模板
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "user_api" ]
+      }
+    },
+    {
+      //授权模块
+      "DownstreamPathTemplate": "/connect/{catchAll}", //下游请求地址模板
+      "DownstreamScheme": "http", //请求协议，目前应该是支持http和https
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/connect/{catchAll}",
+      "UpstreamHttpMethod": [
+        "Post",
+        "Get"
+      ]
+    },
+    {
+      //通讯录模块
+      "DownstreamPathTemplate": "/api/contacts/{path}", //下游请求地址模板
+      "DownstreamScheme": "http", //请求协议，目前应该是支持http和https
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/contacts/{path}",
+      "UpstreamHttpMethod": [
+        "Post",
+        "Get",
+        "Put"
+      ],
+      "AuthenticationOptions": { //认证配置
+        "AuthenticationProviderKey": "finbook", //这个key对应的是代码中.AddJWTBreark中的Key
+        "AllowedScopes": [ "contact_api" ] //使用范围
+      }
+    },
+    {
+      //认证
+      "DownstreamPathTemplate": "/.well-known/{url}", //下游请求地址模板
+      "DownstreamScheme": "http", //请求协议，目前应该是支持http和https
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/.well-known/{url}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ]
+    },
+    {
+      //项目模块
+      "DownstreamPathTemplate": "/api/project/{path}", //下游请求地址模板
+      "DownstreamScheme": "http", //请求协议，目前应该是支持http和https
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/project/{path}",
+      "UpstreamHttpMethod": [
+        "Post",
+        "Get",
+        "Put"
+      ],
+      "AuthenticationOptions": { //认证配置
+        "AuthenticationProviderKey": "finbook", //这个key对应的是代码中.AddJWTBreark中的Key
+        "AllowedScopes": [ "project_api" ] //使用范围
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5002"
+  }
+}

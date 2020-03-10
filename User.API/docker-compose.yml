@@ -1,0 +1,23 @@
+﻿version: '3'
+
+services:
+  db:
+    image: mysql/mysql-server
+    container_name: db
+    command: mysqld --character-ser-server=utf8 --collation-server=utf8_general_ci
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ZY668899
+      MYSQL_USER: zhaoyang
+      MYSQL_PASSWORD: 668899
+    volumes:
+      - /d/docker/data/mysql-init:/docke-entrypoint-initdb.d
+  web:
+    build: .
+    container_name: aspnetcore
+    ports:
+      - "8002:80"
+    depends_on:
+      - db
